@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EditProfileRequest;
+use App\Imports\UsersImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -73,5 +75,16 @@ class UserController extends Controller
      }
 
 
+  }
+
+  public function importUser(Request $request){
+
+      if ($request->hasFile('excel_file')) {
+          Excel::import(new UsersImport(), request()->file('excel_file'));
+          return redirect('/')->with('success-status', 'file import successfully');
+      }
+      else {
+          return back()->with('error-status','Please upload file');
+      }
   }
 }

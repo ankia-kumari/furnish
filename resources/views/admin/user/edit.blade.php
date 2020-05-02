@@ -1,5 +1,11 @@
 @extends('admin.include.layouts')
 @section('content')
+
+    <form role="form" action="{{route('admin.import.user')}}" method="POST" enctype="multipart/form-data">
+        <input type="file" name="excel_file">
+        <button type="submit" class="btn btn-danger">Import File</button>
+        @csrf
+    </form>
 <!-- EDIT ACCOUNT -->
  <div class="row">
        <form class="form-horizontal" action="{{route('admin.user.edit')}}" method="POST" enctype="multipart/form-data">

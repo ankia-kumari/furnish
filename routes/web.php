@@ -33,8 +33,8 @@ Route::middleware('is_admin')->group(function (){
 
     Route::post('app-configuration/add','AppConfigurationController@appConfigurationAdd')->name('app-configuration.add');
 
-    Route::get('app-configuration/list','AppConfigurationController@appConfigurationList')->name('app-configuration.list');
-    Route::get('export/app-configuration/list','AppConfigurationController@appConfigExport')->name('export.app-configuration.list');
+    Route::match(['get','post'],'app-configuration/list','AppConfigurationController@appConfigurationList')->name('app-configuration.list');
+
 
     Route::get('app-configuration/edit/{id}', 'AppConfigurationController@appConfigurationEditView')->name('app-configuration.edit.view');
     Route::post('app-configuration/edit/{id}', 'AppConfigurationController@appConfigurationEdit')->name('app-configuration.edit');
@@ -111,12 +111,17 @@ Route::middleware('is_admin')->group(function (){
 
 
 
+
+
 });
     Route::get('post','PostController@postView')->name('post.view');
 
     Route::post('post/add','PostController@postAdd')->name('post.add');
 
     Route::match(['get','post'],'post/list','PostController@postlist')->name('post.list');
+    Route::post('pdf','PostController@pdf')->name('export.pdf.post.list');
+
+    Route::post('import','UserController@importUser')->name('import.user');
 
 
     Route::get('post/edit/{id}','PostController@postEditView')->name('post.edit.view');
@@ -153,5 +158,6 @@ Route::namespace('FrontEnd')->group(function () {
    Route::post('comment/{post_id}','BlogController@commentAdd')->name('comment');
 
 });
+
 
 

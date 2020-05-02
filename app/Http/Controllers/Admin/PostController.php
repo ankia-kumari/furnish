@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enquiry;
 use App\Exports\PostExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddPostRequest;
 use App\Http\Requests\EditPostRequest;
 use App\Post;
+use App\User;
+use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -35,9 +39,14 @@ class PostController extends Controller
        if ($request->hasFile('image')){
            $request_data['image'] = file_upload($request->file('image'),'post');
        }
-       if(Post::create($request_data)){
+       if($post = Post::create($request_data)){
 
-           return redirect()->route('admin.post.list')->with('success-status','data inserted');
+           return response([
+               'message' => "post created",
+               'status' => 201,
+               'post' => $post
+           ]);
+         //  return redirect()->route('admin.post.list')->with('success-status','data inserted');
        }
 
        return redirect()->route('admin.post.view')->with('error-status','something went wrong');
@@ -73,8 +82,12 @@ class PostController extends Controller
 
            $post_query->whereBetween('views',[$request['min'],$request['max']]);
 
-
        }
+       if ($request->has('export')){
+
+           return Excel::download(new PostExport($post_query->get()),'post_list.csv');
+       }
+
 
        if (!is_admin()) {
 
@@ -82,9 +95,7 @@ class PostController extends Controller
        }
 
 
-       if ($request->has('export')){
-           return Excel::download(new PostExport($post_query->get()),'post_list.xlsx');
-       }
+
 
        $post_list = $post_query->paginate(config('custom-app.per_page'));
 
@@ -168,4 +179,49 @@ class PostController extends Controller
 
    }
 
+   public function pdf(){
+
+       /*$post_list = Enquiry::paginate();
+       $paginate = $post_list->firstItem();
+       $data = User::all();
+       $breadcrum = [
+           'dadas'
+       ];*/
+
+       $pdf = \PDF::loadView('admin.post.abc' /*compact('post_list','breadcrum','paginate')*/);
+     //  $pdf = PDF::loadView('admin.post.list',$post_list);
+
+       return $pdf->download('post_list.pdf');
+   }
+
+    public function topPosts() {
+        $post = Post::orderBy('created_at','desc')->limit(1)->get();
+
+        if($post) {
+            return response([
+                'status' => 200,
+                'posts' => $post
+            ],200);
+        }
+        else {
+            return response([],200);
+        }
+
+    }
+
+    public function addPostByApi(Request $request) {
+        $request_data = [
+            'title' => $request['title'],
+            'description' => $request['description'],
+            'status' => $request['status'],
+            'user_id_fk' => 1
+        ];
+
+        if ($request->hasFile('image')){
+            $request_data['image'] = file_upload($request->file('image'),'post');
+        }
+        if($post = Post::create($request_data)){
+            return response(['status'=>200,'message'=>"post created"]);
+        }
+    }
 }

@@ -38,16 +38,39 @@ class AppConfigurationController extends Controller
 
         return redirect()->route('admin.app-configuration.add')->with('error-status','Something went wrong');
     }
-     public function appConfigurationList(){
+     public function appConfigurationList(Request $request){
         $title = 'App Configuration List';
          $breadcrum = [
              'App Configuration',
              'List Of App Configuration',
          ];
 
-        $app_list=AppConfiguration::orderBy('created_at','desc')->paginate(config('custom-app.per_page'));
+        $app_filter = AppConfiguration::orderBy('created_at','desc');
+
+        if ($request->has('search') && !empty($request['search'])){
+
+            $app_filter->where(function ($query) use($request) {
+                $query->where('title','like','%'.$request['search'].'%');
+                $query->orwhere('slug','like','%'.$request['search'].'%');
+                $query->orwhere('value','like','%'.$request['search'].'%');
+            });
+        }
+
+         if ($request->has('export')){
+
+             return Excel::download(new AppConfigurationExport($app_filter->get()),'app_config_list.xlsx');
+         }
+
+        $app_list = $app_filter->paginate(config('custom-app.per_page'));
 
         $paginate = $app_list->firstItem();
+
+        if ($request->ajax()){
+
+            return view('admin.app-configuration.list-by-ajax',compact('app_list','paginate'));
+        }
+
+
 
         return view('admin.app-configuration.list',compact('title', 'app_list','paginate','breadcrum'));
 
@@ -90,10 +113,7 @@ class AppConfigurationController extends Controller
 
      }
 
-     public function appConfigExport(){
 
-        return Excel::download(new AppConfigurationExport(),'app_config_list.xlsx');
-     }
 
 
 

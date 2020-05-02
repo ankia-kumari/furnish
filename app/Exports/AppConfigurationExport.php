@@ -8,12 +8,32 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class AppConfigurationExport implements FromCollection, WithHeadings
 {
+    private $data;
+
+    public function __construct($app_filter){
+
+       $this->data = $app_filter;
+    }
     /**
-    * @return \Illuminate\Support\Collection
+    * @return array
     */
     public function collection()
     {
-        return AppConfiguration::all();
+        $app_data = [];
+
+        if(count($this->data)>0){
+            foreach($this->data as $appConfig){
+                $app_data [] = [
+                    'id' => $appConfig->id,
+                    'title' => $appConfig->title,
+                    'slug' => $appConfig->slug,
+                    'value' => $appConfig->value,
+                    'created_at' => $appConfig->created_at
+                ];
+            }
+        }
+
+        return collect($app_data);
     }
 
     public function headings(): array

@@ -1,6 +1,16 @@
 @extends('admin.include.layouts')
 @section('content')
 
+    <form action="" role="form" method="GET">
+        @csrf
+        <div class="col-md-3">
+            <input type="text" placeholder="Search.." name="search" class="form-control pull-right" style="margin-bottom: 20px" id="search">
+        </div>
+        <div class="col-md-1">
+            <button type="submit" style="margin-left: -58px;margin-top: 5px"><i class="fa fa-search"></i></button>
+        </div>
+    </form>
+
     <div class="row">
         <button type="button" rel="tooltip" class="btn btn-success" style="margin-left:95%; margin-bottom: 10px" >
             <a href="{{route('admin.export.enquiry.list')}}"><i class="material-icons">Export</i></a>
@@ -37,7 +47,7 @@
 
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tbody">
                         @if($enquiry_list)
                             <?php /*$a = 1; */?>
                             @foreach($enquiry_list as $key => $data)
@@ -56,9 +66,6 @@
                                 </tr>
                             @endforeach
                         @endif
-
-
-
                         </tbody>
                     </table>
 
@@ -69,4 +76,28 @@
         </div>
     </div>
 
+@endsection
+@section('scripts')
+    <script type="text/javascript">
+        $('#search').keyup(function () {
+
+            var search = $('#search').val()
+
+            $.ajax({
+                type: "GET",
+                url: "{{route('admin.enquiry.list')}}",
+                data: {"search": search},
+                success:function (response) {
+                    $('#tbody').html(response)
+                },
+                error:function () {
+
+                }
+
+            })
+        })
+
+
+
+    </script>
 @endsection
