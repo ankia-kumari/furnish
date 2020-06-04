@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*FOR IMAGE UPLOAD*/
 if (!file_exists('file_upload')){
@@ -47,3 +48,23 @@ if(!function_exists('is_admin')){
     }
 }
 
+if (!function_exists('move_file_to_another_directory')) {
+
+
+    /**
+     * @author nakka
+     * @desc To move
+     * @param string $from
+     * @param string $to
+     * @param $file_name
+     * @return bool
+     */
+    function move_file_to_another_directory($from, $to, $file_name) {
+        if (Storage::exists($from.$file_name)) {
+            return Storage::move($from.$file_name,$to.$file_name);
+        }
+        else
+            return false;
+    }
+
+}

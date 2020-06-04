@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Uppercase;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class AddAppConfigurationRequest extends FormRequest
 {
@@ -23,10 +25,36 @@ class AddAppConfigurationRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            'title' => 'required|string',
+            'title' => [
+                'required',
+                'string',
+               // new Uppercase()
+            ],
             'slug' => 'required|string|unique:app_configurations,slug',
             'value' => 'required'
         ];
+    }
+
+    public function messages()
+    {
+       return [
+         // 'required' => "This :attribute is my custom message",
+           'slug.unique' => "dasdds"
+       ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'title' => 'name'
+        ];
+    }
+
+    public function validationData()
+    {
+        $this->request->add(['value'=>'fasf']);
+        return $this->all();
     }
 }

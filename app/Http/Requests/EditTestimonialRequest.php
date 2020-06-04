@@ -27,7 +27,8 @@ class EditTestimonialRequest extends FormRequest
             return [
                 'name' => 'required|string',
                 'message' => 'required|string',
-                'image' => 'sometimes|mimes:jpeg,bmp,png,jpg',
+                'image' => 'required',
+                'image.*' => 'required|mimes:jpeg,bmp,png,jpg',
                 'status' => 'required|integer|max:1',
             ];
     }

@@ -22,13 +22,26 @@ class BlogController extends Controller
 
    }
 
-   public function blogDetailView(Request $request){
 
-       $this->view_data['post_detail'] = Post::with('commentRelation.userRelation')->findOrFail($request->id);
+    /**
+     * @param Request $request
+     * @param string $dasd
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function blogDetailView(Request $request, string $dasd){
+        $request->session()->push('user.admin', 'developers');
+        $da = $request->session()->pull('user.admin', 'developers');
+       // Session
+       //session('blog6'); // to get session value for a particular key
+       //session(['blog6' =>'dad','blog7'=>'ddas']); // to create session with key and value for a multiple key
+       // session('blog8','bcdbshbj'));  // if key not exists in the session, we can set a default value
+       // $sfd = $request->session()->get('blog6', 'default');
+dd(session()->all());
+        $this->view_data['post_detail'] = Post::with('commentRelation.userRelation')->findOrFail($request->id);
 
        $blog_session_key = 'blog'.$request->id;
 
-       if(!Session::exists($blog_session_key)) {
+       if(!session()->has($blog_session_key)) {
 
            Session::put($blog_session_key,$request->id); // to create new session
            DB::table('posts')->where('id', $request->id)->increment('views');
@@ -46,7 +59,7 @@ class BlogController extends Controller
          'comment' => 'required'
        ];
 
-       $request->validate($validate);
+    //     $request->validate($validate);
 
        $request_data = [
          'comment' => $request['comment'],

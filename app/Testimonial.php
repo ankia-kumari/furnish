@@ -9,7 +9,6 @@ class Testimonial extends Model
     protected $fillable = [
       'name',
       'message',
-      'image',
       'status'
     ];
 
@@ -22,4 +21,10 @@ class Testimonial extends Model
         'Active' => 1,
         'DeActive' => 0
     ];
+
+    public function testimonialRelation(){
+
+        return $this->hasMany(TestimonialImage::class,'testimonial_id_fk','id');
+
+    }
 }

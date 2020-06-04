@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $fillable = [
+   /* protected $fillable = [
       'title',
       'description',
       'image',
       'status',
       'theme'
-    ];
+    ];*/
+
+    protected $guarded = [];
 
     public static $status_name = [
        1 => 'Active',

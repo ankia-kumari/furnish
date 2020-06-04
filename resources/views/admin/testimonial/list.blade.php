@@ -48,7 +48,13 @@
 
                                     <td>{{$data->message ?? 'NA'}}</td>
 
-                                    <td><img src="{{asset('storage/testimonial/'.$data->image)}}" style="height:40px; width: 40px"></td>
+                                    <td>
+                                        @forelse($data->testimonialRelation as $item)
+                                            <img src="{{asset('storage/testimonial/'.$item->image)}}" style="height:40px; width: 40px">
+                                        @empty
+                                        @endforelse
+
+                                    </td>
 
                                     <td>{{\App\Testimonial::$status_name[$data->status]}}</td>
 

@@ -19,13 +19,21 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+/*Route::get('/home', 'HomeController@index')->name('home');*/
+Route::get('home', function (){
+   return redirect('/') ;
+});
+
 
 /*------------Admin Panel-------------*/
 
 Route::name('admin.')->namespace('Admin')->middleware('auth')->group(function (){
 
     Route::get('dashboard','DashboardController@dashboard')->name('dashboard');
+
+    Route::get('dashboard_home',function (){
+       return redirect('dashboard');
+    });
 
 Route::middleware('is_admin')->group(function (){
 
@@ -34,6 +42,7 @@ Route::middleware('is_admin')->group(function (){
     Route::post('app-configuration/add','AppConfigurationController@appConfigurationAdd')->name('app-configuration.add');
 
     Route::match(['get','post'],'app-configuration/list','AppConfigurationController@appConfigurationList')->name('app-configuration.list');
+
 
 
     Route::get('app-configuration/edit/{id}', 'AppConfigurationController@appConfigurationEditView')->name('app-configuration.edit.view');
@@ -64,6 +73,7 @@ Route::middleware('is_admin')->group(function (){
 
     Route::get('enquiry/list','EnquiryController@enquiryList')->name('enquiry.list');
     Route::get('export/enquiry/list','EnquiryController@export')->name('export.enquiry.list');
+    Route::post('file/att','EnquiryController@fileAtt')->name('file.att');
 
     Route::get('setting','SettingController@settingView')->name('setting.view');
 
@@ -91,7 +101,11 @@ Route::middleware('is_admin')->group(function (){
 
     Route::post('team/add','TeamController@teamAdd')->name('team.add');
 
-    Route::get('team/list','TeamController@teamList')->name('team.list');
+    Route::match(['get','post'],'team/list','TeamController@teamList')->name('team.list');
+
+    Route::get('team/export/','TeamController@downloadExport')->name('team.export');
+
+    Route::post('team/list/import','TeamController@listImport')->name('list.import');
 
     Route::get('team/edit/{id}','TeamController@teamEditView')->name('team.edit.view');
     Route::post('team/edit/{id}','TeamController@teamEdit')->name('team.edit');
@@ -123,7 +137,6 @@ Route::middleware('is_admin')->group(function (){
 
     Route::post('import','UserController@importUser')->name('import.user');
 
-
     Route::get('post/edit/{id}','PostController@postEditView')->name('post.edit.view');
     Route::post('post/edit/{id}','PostController@postEdit')->name('post.edit');
 
@@ -131,10 +144,10 @@ Route::middleware('is_admin')->group(function (){
 
     Route::prefix('user')->name('user.')->group(function (){
 
-       Route::get('edit','UserController@editProfileView')->name('edit.view');
-       Route::post('edit','UserController@editProfile')->name('edit');
+    Route::get('edit','UserController@editProfileView')->name('edit.view');
+    Route::post('edit','UserController@editProfile')->name('edit');
 
-       Route::post('password','UserController@editPassword')->name('edit.password');
+    Route::post('password','UserController@editPassword')->name('edit.password');
 
    });
 

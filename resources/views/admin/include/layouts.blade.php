@@ -29,6 +29,33 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/js/gritter/css/jquery.gritter.css')}}" />
     <!-- FONTS -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+
+    <!-- HUBSPOT MESSENGER -->
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/js/hubspot-messenger/css/messenger.min.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/js/hubspot-messenger/css/messenger-spinner.min.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/js/hubspot-messenger/css/messenger-theme-air.min.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/js/hubspot-messenger/css/messenger-theme-block.min.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/js/hubspot-messenger/css/messenger-theme-flat.min.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/js/hubspot-messenger/css/messenger-theme-future.min.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/js/hubspot-messenger/css/messenger-theme-ice.min.css')}}" />
+
+    <!-- DropeZone  -->
+    <link rel="stylesheet" href="{{asset('dropzone/dist/min/dropzone.min.css')}}">
+<style>
+    .buttonload {
+        background-color: #4CAF50; /* Green backgrbuttonLoaderound */
+        border: none; /* Remove borders */
+        color: white; /* White text */
+        padding: 12px 24px; /* Some padding */
+        font-size: 16px; /* Set a font-size */
+    }
+
+    /* Add a right margin to each icon */
+    .buttonload+fa {
+        margin-left: -12px;
+        margin-right: 8px;
+    }
+</style>
 </head>
 <body>
 <!-- HEADER -->
@@ -192,6 +219,12 @@ EASY PIE CHART
 <script type="text/javascript" src="{{asset('assets/js/isotope/imagesloaded.pkgd.min.js')}}"></script>
 <!-- COLORBOX -->
 <script type="text/javascript" src="{{asset('assets/js/colorbox/jquery.colorbox.min.js')}}"></script>
+
+<!-- HUBSPOT MESSENGER -->
+<script type="text/javascript" src="{{asset('assets/js/hubspot-messenger/js/messenger.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/js/hubspot-messenger/js/messenger-theme-flat.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/js/hubspot-messenger/js/messenger-theme-future.js')}}"></script>
+
 @yield('scripts')
 <!-- CUSTOM SCRIPT -->
 <script src="{{asset('assets/js/script.js')}}"></script>

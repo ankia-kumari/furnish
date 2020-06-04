@@ -7,6 +7,9 @@ use App\Http\Requests\AddTeamRequest;
 use App\Http\Requests\EditTeamRequest;
 use App\Team;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\TeamExport;
+use App\Imports\TeamImport;
 
 class TeamController extends Controller
 {
@@ -45,7 +48,7 @@ class TeamController extends Controller
         return redirect()->route('admin.dashboard')->with('error-status','something went wrong');
     }
 
-    public function teamList(){
+    public function teamList(Request $request){
         $title = 'List Of Team';
 
         $breadcrum = [
@@ -53,7 +56,33 @@ class TeamController extends Controller
             'List Of Team'
         ];
 
-        $team_list = Team::orderBy('created_at','desc')->get();
+        $team_list_data = Team::orderBy('created_at','desc');
+
+        if ($request->has('search') && !empty($request['search'])){
+
+            $team_list_data->where(function ($search) use($request){
+
+                $search->where('name','like','%'.$request['search'].'%');
+                $search->orWhere('designation','like','%'.$request['search'].'%');
+                $search->orWhere('facebook_url','like','%'.$request['search'].'%');
+                $search->orWhere('twitter_url','like','%'.$request['search'].'%');
+                $search->orWhere('linkedin_url','like','%'.$request['search'].'%');
+                $search->orWhere('feed_url','like','%'.$request['search'].'%');
+            });
+        }
+
+        if ($request->has('export')){
+
+            return Excel::download(new TeamExport($team_list_data->get()),'team_list.xlsx');
+
+        }
+
+        $team_list = $team_list_data->get();
+
+        if ($request->ajax()){
+
+            return view('admin.team.list-ajax',compact('team_list','team_list_data'));
+        }
 
         return view('admin.team.list',compact('title','team_list','breadcrum'));
     }
@@ -96,5 +125,28 @@ class TeamController extends Controller
 
             return redirect()->route('admin.team.list')->with('success-status','data deleted');
         }
+    }
+
+    public function downloadExport(){
+
+        return Excel::download(new TeamExport,'team.xlsx');
+
+    }
+
+    public function listImport(Request $request){
+
+        if ($request->has('import_file')) {
+
+            Excel::import(new TeamImport, $request->file('import_file'));
+
+            return back()->with('success-status', 'file import successfully');
+
+        }
+        else{
+
+            return redirect('/')->with('error-status','something went wrong');
+        }
+
+
     }
 }
