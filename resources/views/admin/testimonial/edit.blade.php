@@ -36,13 +36,16 @@
             <div id="filter-items" class="row">
                 <div class="col-md-3 category_1 item">
                     <div class="filter-content">
-                        <img src="{{asset('storage/testimonial/'.$testimonial_edit->image)}}" alt="" class="img-responsive" />
+                        @forelse($testimonial_edit->testimonialRelation as $mul_img)
+                        <pre><img src="{{asset('storage/testimonial/'.$mul_img->image)}}" alt="" class="img-responsive" /></pre>
+                        @empty
+                        @endforelse
                         <div class="hover-content">
                             <h4>Image Title</h4>
                             <a class="btn btn-success hover-link">
 
                                 <i class="fa fa-edit fa-1x">
-                                    <input type="file" name="image">
+                                    <input type="file" name="image[]" multiple>
                                 </i>
                             </a>
                             <a class="btn btn-warning hover-link colorbox-button" href="{{asset('assets/img/gallery/1.png')}}" title="Image Title">

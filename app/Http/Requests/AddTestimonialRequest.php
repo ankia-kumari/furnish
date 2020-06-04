@@ -23,10 +23,12 @@ class AddTestimonialRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
             'name' => 'required|string',
             'message' => 'required|string',
-            'image' => 'required|mimes:jpeg,bmp,png,jpg',
+            'image' => 'required',
+            'image.*' => 'required|mimes:jpeg,bmp,png,jpg',
             'status' => 'required|integer|max:1',
         ];
     }

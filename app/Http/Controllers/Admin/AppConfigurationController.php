@@ -32,8 +32,10 @@ class AppConfigurationController extends Controller
 
         ];
 
-        if(AppConfiguration::create($request_data)){
-            return redirect()->route('admin.app-configuration.list')->with('success-status','data inserted');
+        if($app_config = AppConfiguration::create($request_data)){
+
+
+            return redirect()->route('admin.app-configuration.list')->with('success-status',__('success-messages.success'));
         }
 
         return redirect()->route('admin.app-configuration.add')->with('error-status','Something went wrong');
@@ -70,11 +72,8 @@ class AppConfigurationController extends Controller
             return view('admin.app-configuration.list-by-ajax',compact('app_list','paginate'));
         }
 
-
-
         return view('admin.app-configuration.list',compact('title', 'app_list','paginate','breadcrum'));
-
-     }
+    }
 
      public function appConfigurationEditView(Request $request){
                   $title = 'App Configuration Edit View';
@@ -112,6 +111,8 @@ class AppConfigurationController extends Controller
        }
 
      }
+
+
 
 
 

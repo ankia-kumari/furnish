@@ -6,16 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Team extends Model
 {
-    protected $fillable = [
-      'name',
-      'designation',
-        'image',
-      'facebook_url',
-      'twitter_url',
-      'linkedin_url',
-      'feed_url',
-      'status'
-    ];
+    protected $guarded = [];
+
     public static $status_name = [
         1 => 'Active',
         0 => 'DeActive'

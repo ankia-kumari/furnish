@@ -38,7 +38,7 @@
                             <a class="btn btn-success hover-link">
 
                                 <i class="fa fa-edit fa-1x">
-                                    <input type="file" name="image">
+                                    <input type="file" name="image[]" multiple>
                                 </i>
                             </a>
                             <a class="btn btn-warning hover-link colorbox-button" href="{{asset('assets/img/gallery/1.png')}}" title="Image Title">

@@ -1,20 +1,38 @@
 @extends('admin.include.layouts')
 @section('content')
 
-    <form action="" role="form" method="GET">
-        @csrf
-        <div class="col-md-3">
-            <input type="text" placeholder="Search.." name="search" class="form-control pull-right" style="margin-bottom: 20px" id="search">
+    <div class="row">
+        <div class="col-md-4">
+            <form action="" role="form" method="GET">
+                @csrf
+                <div class="col-md-3">
+                    <input type="text" placeholder="Search.." name="search" class="form-control pull-right" style="margin-bottom: 20px" id="search">
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" style="margin-left: -58px;margin-top: 5px"><i class="fa fa-search"></i></button>
+                </div>
+
+            </form>
         </div>
-        <div class="col-md-1">
-            <button type="submit" style="margin-left: -58px;margin-top: 5px"><i class="fa fa-search"></i></button>
+        <div class="col-md-4">
+            <button type="button" rel="tooltip" class="btn btn-success" style="margin-left:95%; margin-bottom: 10px" >
+                <a href="{{route('admin.export.enquiry.list')}}"><i class="material-icons">Export</i></a>
+            </button>
         </div>
-    </form>
+        <div class="col-md-4">
+            <form role="form" action="{{route('admin.file.att')}}" method="POST">
+                @csrf
+            <button type="submit" rel="tooltip" class="btn btn-success" style="margin-left:95%; margin-bottom: 10px" >
+                <a href=""><i class="material-icons">Upload</i></a>
+            </button>
+            </form>
+        </div>
+
+    </div>
+
 
     <div class="row">
-        <button type="button" rel="tooltip" class="btn btn-success" style="margin-left:95%; margin-bottom: 10px" >
-            <a href="{{route('admin.export.enquiry.list')}}"><i class="material-icons">Export</i></a>
-        </button>
+
         <div class="col-md-12">
             <!-- BOX -->
             <div class="box border pink">

@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Enquiry;
 use App\Exports\EnquiryExport;
 use App\Http\Controllers\Controller;
+use App\Mail\EnquiryFileAtt;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 
 class EnquiryController extends Controller
@@ -45,4 +48,19 @@ class EnquiryController extends Controller
 
        return Excel::download(new EnquiryExport(), 'enquiry_list.csv');
    }
+
+   public function fileAtt(){
+//dd(public_path('assets/img/avatars/avatar1.jpg'));
+  //     $file_att = Excel::store(new EnquiryExport(), 'public/export/enquiry_list.csv');
+
+
+      $admin = User::where('user_type', 1)->first();
+      Mail::to($admin['email'])->send(new EnquiryFileAtt(public_path('storage/export/enquiry_list.csv')));
+
+      return back();
+
+
+   }
+
+
 }
