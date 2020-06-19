@@ -2,6 +2,7 @@
         <div class="card-header msg_head">
             <div class="d-flex bd-highlight">
                 <div class="img_cont">
+                    
                     <?php $image = $to_user_data->image == null ? 'avatar.png' : $to_user_data->image ?>
 
                     <img src="{{asset('storage/users/'.$image)}}" class="rounded-circle user_img">
@@ -69,7 +70,7 @@
                     <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
                 </div>
 
-                <input class="form-control type_msg" placeholder="Type your message..." name="message" id="message">
+                <input class="form-control type_msg" placeholder="Type your message..." name="message" id="message" autocomplete="off">
 
                 <div class="input-group-append">
                     <span class="input-group-text send_btn">

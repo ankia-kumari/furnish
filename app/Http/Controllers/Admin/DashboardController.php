@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Category;
 use App\Enquiry;
 use App\Http\Controllers\Controller;
+use App\Message;
 use App\Post;
 use App\Service;
+use App\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+
     public function dashboard() {
         $title = 'Dashboard';
         $breadcrum = 'Dashboard';
@@ -30,4 +33,6 @@ class DashboardController extends Controller
 
         return view('admin.dashboard',compact('title','breadcrum','category','post','enquiry','service'));
     }
+
+
 }

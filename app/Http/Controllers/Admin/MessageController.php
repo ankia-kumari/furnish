@@ -15,6 +15,8 @@ class MessageController extends Controller
 
         $user_data = User::with('receiveMessage','sentMessage');
 
+
+
         if($request->has('search') && !empty($request['search'])){
 
          $user_data =  User::where('name', 'like', '%'.$request['search'].'%');
@@ -25,11 +27,12 @@ class MessageController extends Controller
 
         if($request->ajax()){
 
-            return view('admin.message.chat-list',compact('user_detail','user_data'));
+            return view('admin.message.chat-list',compact('user_detail','user_data','title'));
 
         }
 
         $message_data = [];
+
         $to_user_data = User::findOrFail(auth()->id());
 
         return view('admin.message.chat',compact('title','user_detail','message_data', 'user_data','to_user_data'));

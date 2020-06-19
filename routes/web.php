@@ -128,6 +128,8 @@ Route::middleware('is_admin')->group(function (){
 
     Route::get('notification/markasread','NotificationController@markAsRead')->name('markasread');
 
+    
+
  });
     Route::get('post','PostController@postView')->name('post.view');
 
