@@ -52,7 +52,7 @@
                     <a href="#more" class="text-capitalize serv_link btn bg-theme1 scroll mt-4">view more</a>
                 </div>
                 <div class="col-lg-3 col-sm-6 about-right mt-lg-0 mt-4">
-                    <img src="{{asset('storage/setting/'.$our_mission->image)}}" class="img-fluid" alt="" />
+                    <img src="{{asset('storage/setting/'.$our_mission->image ?? '')}}" class="img-fluid" alt="" />
                 </div>
                 {{--<div class="col-lg-4 col-sm-6 mt-lg-0 mt-3 about-right2">
                     <img src="images/a1.jpg" class="img-fluid" alt="" />

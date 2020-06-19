@@ -74,6 +74,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
+            'usertype' => 2
         ]);
 
       //  Mail::to($user)->send(new WelcomeEmail($user));
