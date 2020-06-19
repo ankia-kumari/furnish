@@ -20,8 +20,8 @@
                 <ul class="dropdown-menu notification">
                     <li class="dropdown-title">
                         <span><i class="fa fa-bell"></i>{{auth()->user()->unreadNotifications->count() ?? 0}} Notifications</span>
+                        <span id="markasread"><i class="fa fa-check-square-o"></i></span>
                     </li>
-
                  @forelse(auth()->user()->unreadNotifications as $notify)
                     <li>
                         <a href="#">
@@ -447,3 +447,18 @@
     <!-- /TEAM STATUS -->
 </header>
 <!--/HEADER -->
+@section('scripts')
+    <script type="text/javascript">
+    $('#markasread').click(function(){
+
+        $.ajax({
+
+            url:"{{route('admin.markasread')}}",
+            dataType: 'json',
+            type: 'GET',
+            data: 
+        })
+    })
+
+@endsection
+

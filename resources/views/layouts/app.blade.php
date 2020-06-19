@@ -18,6 +18,11 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        #ui-id-1 {
+            background-color: aqua
+        }
+    </style>
 </head>
 <body>
     <div id="app">

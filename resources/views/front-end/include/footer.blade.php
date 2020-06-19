@@ -156,19 +156,12 @@
                     <a href="http://w3layouts.com"> W3layouts.</a> | Developed by Ankita Kumari
                 </p>
             </div>
-            <div class="col-md-4 mt-md-0 mt-4">
-                <div class="subscribe-form">
-                    <form action="#" method="post" class="newsletter">
-                        <input class="subscribe" type="text" placeholder="Subscribe..." required="">
-                        <button class="form-control btn" value=""><span class="fa fa-long-arrow-right"></span></button>
-                    </form>
-                </div>
-            </div>
+            
         </div>
     </div>
 </section>
 <!-- copyright -->
 
-<!-- move top icon -->
+{{-- <!-- move top icon -->
 <a href="#home" class="move-top text-center"></a>
-<!-- //move top icon -->
+<!-- //move top icon --> --}}

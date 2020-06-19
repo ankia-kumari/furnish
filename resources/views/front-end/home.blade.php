@@ -1,6 +1,7 @@
+
 @extends('front-end.include.layout')
 @section('content')
-
+   
     <!-- banner -->
     <section class="banner_w3lspvt">
         <div class="csslider infinity" id="slider1">
@@ -188,3 +189,4 @@
     <!--//tabs -->
 
 @endsection
+
