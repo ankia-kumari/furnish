@@ -29,6 +29,7 @@ class BlogController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function blogDetailView(Request $request, string $dasd){
+
         $request->session()->push('user.admin', 'developers');
         $da = $request->session()->pull('user.admin', 'developers');
        // Session
@@ -36,7 +37,7 @@ class BlogController extends Controller
        //session(['blog6' =>'dad','blog7'=>'ddas']); // to create session with key and value for a multiple key
        // session('blog8','bcdbshbj'));  // if key not exists in the session, we can set a default value
        // $sfd = $request->session()->get('blog6', 'default');
-dd(session()->all());
+
         $this->view_data['post_detail'] = Post::with('commentRelation.userRelation')->findOrFail($request->id);
 
        $blog_session_key = 'blog'.$request->id;
@@ -81,6 +82,38 @@ dd(session()->all());
        }
 
        return back()->with('error-status','something went wrong');
+
+
+   }
+
+   public function searchBlog(Request $request){
+
+    if($request->has('search') && !empty($request['search'])){
+
+        $search = Post::where('title', 'like', '%'.$request['search'].'%')->pluck('title','id');
+
+        if($search) {
+           foreach($search as $id=>$title) {
+
+               $response[] = [
+                   "label" => $title,
+                   "the_link" => route('blog',$id)
+               ];
+           }
+        }
+
+    }
+
+    return response([
+        'status' => true,
+        'post_title_data' => $response ?? []
+    ]);
+    // if($request->ajax()){
+     
+    //     return view();
+
+    // };
+
 
 
    }

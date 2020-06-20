@@ -17,7 +17,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class HomeController extends Controller
 {
 
-   public function homeView()
+   public function homeView(Request $request)
    {
        try {
            $this->view_data['title'] = 'Home';

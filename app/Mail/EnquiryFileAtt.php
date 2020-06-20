@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class EnquiryFileAtt extends Mailable
 {
@@ -27,9 +28,13 @@ class EnquiryFileAtt extends Mailable
      *
      * @return $this
      */
-    public function build()
-    {
+    public function build(){
+
         return $this->view('emails.enquiry-file-att')
-                    ->attach(public_path('assets/img/avatars/avatar1.jpg'));
+                    ->attach(public_path('assets/original.pdf'),[
+                        'mime' => 'application/pdf'
+                    ])
+        ->attach('assets/team_list.xlsx');
+                    //->attachData($this->data_att,'enquiry_list.csv');
     }
 }

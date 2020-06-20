@@ -118,19 +118,36 @@
                 </ul>
             </li>
 
-           @else
-                <li class="has-sub {{menu_collapse('post')}}">
-                    <a href="javascript:;" class="">
-                        <i class="fa fa-bookmark-o fa-fw"></i> <span class="menu-text">Post</span>
-                        <span class="arrow {{menu_collapse('post')}}"></span>
-                    </a>
-                    <ul class="sub" style="display:{{sub_menu('post')}}">
-                        <li class="{{menu_active('admin.post.view')}}"><a href="{{route('admin.post.view')}}"><span class="sub-menu-text">Add Post</span></a></li>
-                        <li class="{{menu_active('admin.post.list')}}"><a href="{{route('admin.post.list')}}"><span class="sub-menu-text">List Of Post</span></a></li>
-                    </ul>
-                </li>
+            @endif
 
-          @endif
+            <li class="has-sub {{menu_collapse('post')}}">
+                <a href="javascript:;" class="">
+                    <i class="fa fa-bookmark-o fa-fw"></i> <span class="menu-text">Post</span>
+                    <span class="arrow {{menu_collapse('post')}}"></span>
+                </a>
+                <ul class="sub" style="display:{{sub_menu('post')}}">
+                    <li class="{{menu_active('admin.post.view')}}"><a href="{{route('admin.post.view')}}"><span class="sub-menu-text">Add Post</span></a></li>
+                    <li class="{{menu_active('admin.post.list')}}"><a href="{{route('admin.post.list')}}"><span class="sub-menu-text">List Of Post</span></a></li>
+                </ul>
+            </li>
+
+            <li class="has-sub {{menu_collapse('message')}}">
+                <a href="javascript:;" class="">
+                    <i class="fa fa-bookmark-o fa-fw"></i> <span class="menu-text">Message</span>
+                    <span class="arrow {{menu_collapse('message')}}"></span>
+                </a>
+                <ul class="sub" style="display:{{sub_menu('message')}}">
+                    <li class="{{menu_active('admin.message.view')}}"><a href="{{route('admin.message.view')}}"><span class="sub-menu-text">Message</span></a></li>
+                    {{-- <li class="{{menu_active('admin.post.list')}}"><a href="{{route('admin.post.list')}}"><span class="sub-menu-text">List Of Post</span></a></li> --}}
+                </ul>
+            </li>
+
+
+
+
+
+
+
 
                 </ul>
         <!-- /SIDEBAR MENU -->

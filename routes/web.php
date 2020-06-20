@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Routing\Route as RoutingRoute;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,10 +20,10 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-/*Route::get('/home', 'HomeController@index')->name('home');*/
-Route::get('home', function (){
-   return redirect('/') ;
-});
+Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('home', function (){
+//    return redirect('/') ;
+// });
 
 
 /*------------Admin Panel-------------*/
@@ -71,7 +72,7 @@ Route::middleware('is_admin')->group(function (){
 
     Route::get('service/delete/{id}', 'ServiceController@serviceDelete')->name('service.delete');
 
-    Route::get('enquiry/list','EnquiryController@enquiryList')->name('enquiry.list');
+    Route::any('enquiry/list','EnquiryController@enquiryList')->name('enquiry.list');
     Route::get('export/enquiry/list','EnquiryController@export')->name('export.enquiry.list');
     Route::post('file/att','EnquiryController@fileAtt')->name('file.att');
 
@@ -123,11 +124,13 @@ Route::middleware('is_admin')->group(function (){
 
     Route::get('slider/delete/{id}','SliderController@sliderDelete')->name('slider.delete');
 
+    // for notification
 
+    Route::get('notification/markasread','NotificationController@markAsRead')->name('markasread');
 
+    
 
-
-});
+ });
     Route::get('post','PostController@postView')->name('post.view');
 
     Route::post('post/add','PostController@postAdd')->name('post.add');
@@ -141,6 +144,11 @@ Route::middleware('is_admin')->group(function (){
     Route::post('post/edit/{id}','PostController@postEdit')->name('post.edit');
 
     Route::get('post/delete/{id}','PostController@blogDetailView')->name('post.delete');
+
+    Route::get('message', 'MessageController@messageView')->name('message.view');
+    Route::match(['get','post'],'message/{user_id}', 'MessageController@messageAdd')->name('message.add');
+
+
 
     Route::prefix('user')->name('user.')->group(function (){
 
@@ -160,6 +168,7 @@ Route::middleware('is_admin')->group(function (){
 /*For FRONT END */
 
 Route::namespace('FrontEnd')->group(function () {
+
     Route::get('/','HomeController@homeView')->name('home');
     Route::get('about','AboutUsController@aboutUs')->name('about');
     Route::get('services','ServiceController@service')->name('services');
@@ -169,6 +178,8 @@ Route::namespace('FrontEnd')->group(function () {
    Route::get('blog','BlogController@blogView')->name('blog.view');
    Route::get('blog/{id}','BlogController@blogDetailView')->name('blog');
    Route::post('comment/{post_id}','BlogController@commentAdd')->name('comment');
+
+   Route::post('search','BlogController@searchBlog')->name('search');
 
 });
 

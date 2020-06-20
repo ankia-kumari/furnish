@@ -32,6 +32,12 @@ class EnquiryController extends Controller
            });
        }
 
+       if($request->has('email_file')) {
+           if($this->fileAtt()) {
+               return redirect()->back()->with('success-status','Email has been sent successfully.');
+           }
+       }
+
        $enquiry_list = $enquiry_query->paginate(config('custom-app.per_page'));
 
        $paginate = $enquiry_list->firstItem();
@@ -50,15 +56,13 @@ class EnquiryController extends Controller
    }
 
    public function fileAtt(){
-//dd(public_path('assets/img/avatars/avatar1.jpg'));
-  //     $file_att = Excel::store(new EnquiryExport(), 'public/export/enquiry_list.csv');
 
+      Excel::store(new EnquiryExport(), 'public/export/enquiry_list.csv');
+      $file_path = public_path('storage/export/enquiry_list.csv');
+      $admin = User::where('user_type', 1)->first('email');
+      Mail::to($admin)->send(new EnquiryFileAtt($file_path));
 
-      $admin = User::where('user_type', 1)->first();
-      Mail::to($admin['email'])->send(new EnquiryFileAtt(public_path('storage/export/enquiry_list.csv')));
-
-      return back();
-
+      return true;
 
    }
 

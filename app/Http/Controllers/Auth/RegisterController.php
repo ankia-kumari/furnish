@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Mail\WelcomeEmail;
+use App\Notifications\MailNotification;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+
 
 class RegisterController extends Controller
 {
@@ -72,9 +74,21 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
+            'usertype' => 2
         ]);
 
-        Mail::to($user)->send(new WelcomeEmail($user));
+      //  Mail::to($user)->send(new WelcomeEmail($user));
+
+        Mail::send('emails.custom-email-temp', compact('user'), function ($callback) use ($user){
+            $callback->to($user->email)
+                ->subject('Signup Success')
+                //->attach()
+                ->from(env('MAIL_FROM_ADDRESS'));
+        });
+
+
+
+       // $user->notify(new MailNotification());
 
         return $user;
     }

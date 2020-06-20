@@ -6,22 +6,19 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Storage;
 
-class EnquiryNotification extends Notification
+class MarkdownMailNotification extends Notification
 {
     use Queueable;
-
-    private $notification_data;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($notification_data)
+    public function __construct()
     {
-          $this->notification_data = $notification_data;
+        //
     }
 
     /**
@@ -32,7 +29,7 @@ class EnquiryNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail','database'];
+        return ['mail'];
     }
 
     /**
@@ -43,10 +40,7 @@ class EnquiryNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+        return (new MailMessage)->markdown('emails.markdownmail');
     }
 
     /**
@@ -58,7 +52,7 @@ class EnquiryNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'notification_data' => $this->notification_data,
+            //
         ];
     }
 }

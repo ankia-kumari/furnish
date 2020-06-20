@@ -20,8 +20,8 @@
                 <ul class="dropdown-menu notification">
                     <li class="dropdown-title">
                         <span><i class="fa fa-bell"></i>{{auth()->user()->unreadNotifications->count() ?? 0}} Notifications</span>
+                        <span id="markasread"><i class="fa fa-check-square-o"></i></span>
                     </li>
-
                  @forelse(auth()->user()->unreadNotifications as $notify)
                     <li>
                         <a href="#">
@@ -52,66 +52,60 @@
             <!-- END NOTIFICATION DROPDOWN -->
             <!-- BEGIN INBOX DROPDOWN -->
             @if(is_admin())
+
             <li class="dropdown" id="header-message">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-envelope"></i>
-                    <span class="badge">3</span>
+                    <i class="fa fa-envelope" id="chat-markasread"></i>
+                    {{-- <span class="badge">3</span> --}}
                 </a>
                 <ul class="dropdown-menu inbox">
+
+
+
                     <li class="dropdown-title">
                         <span><i class="fa fa-envelope-o"></i> 3 Messages</span>
-                        <span class="compose pull-right tip-right" title="Compose message"><i class="fa fa-pencil-square-o"></i></span>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="{{asset('assets/img/avatars/avatar2.jpg')}}" alt="" />
-                            <span class="body">
-										<span class="from">Jane Doe</span>
-										<span class="message">
-										Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse mole ...
-										</span>
-										<span class="time">
-											<i class="fa fa-clock-o"></i>
-											<span>Just Now</span>
-										</span>
-									</span>
+                        <span class="compose pull-right tip-right" title="Compose message">
 
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="{{asset('assets/img/avatars/avatar1.jpg')}}" alt="" />
-                            <span class="body">
-										<span class="from">Vince Pelt</span>
-										<span class="message">
-										Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse mole ...
-										</span>
-										<span class="time">
-											<i class="fa fa-clock-o"></i>
-											<span>15 min ago</span>
-										</span>
-									</span>
+                            <a href="{{route('admin.message.view')}}">
 
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="{{asset('assets/img/avatars/avatar8.jpg')}}" alt="" />
-                            <span class="body">
-										<span class="from">Debby Doe</span>
-										<span class="message">
-										Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse mole ...
-										</span>
-										<span class="time">
-											<i class="fa fa-clock-o"></i>
-											<span>2 hours ago</span>
-										</span>
-									</span>
+                                <i class="fa fa-pencil-square-o"></i>
 
-                        </a>
+                            </a>
+                        </span>
                     </li>
+
+                    <?php $user_chat_list = chat_list()?>
+
+
+                    @forelse ($user_chat_list as $chat_list)
+                   <li>
+                    <a href="{{ route('admin.message.view') }}">
+
+                        <?php $image = $chat_list->messageReceivedToAuthUser->image == null ? 'avatar.png' : $chat_list->messageReceivedToAuthUser->image ?>
+
+                        <img src="{{asset('storage/users/'. $image)}}" alt="" />
+                        <span class="body">
+                                    <span class="from">{{$chat_list->messageReceivedToAuthUser->name ?? '' }}</span>
+                                    <span class="message">
+                                    {{ $chat_list->message ?? '' }}
+                                    </span>
+                                    <span class="time">
+                                        <i class="fa fa-clock-o"></i>
+                                        <span>{{ date_format($chat_list->created_at, 'j M Y') }}</span>
+                                    </span>
+                                </span>
+
+                    </a>
+                </li>
+
+                   @empty
+
+                   @endforelse
+
+
+
                     <li class="footer">
-                        <a href="#">See all messages <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('admin.message.view') }}">See all messages <i class="fa fa-arrow-circle-right"></i></a>
                     </li>
                 </ul>
             </li>
@@ -154,7 +148,7 @@
         <!-- END TOP NAVIGATION MENU -->
     </div>
     <!-- TEAM STATUS -->
-    <div class="container team-status" id="team-status">
+    {{-- <div class="container team-status" id="team-status">
         <div id="scrollbar">
             <div class="handle">
             </div>
@@ -443,7 +437,24 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div> --}}
     <!-- /TEAM STATUS -->
 </header>
 <!--/HEADER -->
+@section('scripts')
+    <script type="text/javascript">
+    $('#markasread').click(function(){
+
+        $.ajax({
+
+            url:"{{route('admin.markasread')}}",
+            dataType: 'json',
+            type: 'GET',
+            data:
+        });
+    });
+
+
+
+@endsection
+

@@ -214,7 +214,7 @@
                 </div>
             </div>
             <!-- /BOX -->
-        </dliv>
+        </div>
     </div>
 
 @endsection

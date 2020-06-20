@@ -15,15 +15,16 @@
             </form>
         </div>
         <div class="col-md-4">
-            <button type="button" rel="tooltip" class="btn btn-success" style="margin-left:95%; margin-bottom: 10px" >
+            <button type="button" rel="tooltip" class="btn btn-success" style="" >
                 <a href="{{route('admin.export.enquiry.list')}}"><i class="material-icons">Export</i></a>
             </button>
         </div>
         <div class="col-md-4">
-            <form role="form" action="{{route('admin.file.att')}}" method="POST">
+            <form role="form" action="" method="POST">
                 @csrf
-            <button type="submit" rel="tooltip" class="btn btn-success" style="margin-left:95%; margin-bottom: 10px" >
-                <a href=""><i class="material-icons">Upload</i></a>
+                <input type="hidden" name="email_file">
+            <button type="submit" rel="tooltip" class="btn btn-success"  >
+                <a href=""><i class="material-icons">Send on Email</i></a>
             </button>
             </form>
         </div>

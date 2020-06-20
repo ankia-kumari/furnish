@@ -1,4 +1,6 @@
 <?php
+
+use App\Message;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
@@ -35,7 +37,9 @@ if (!function_exists('menu_collapse')){
 }
 
 if (!function_exists('sub_menu')){
+
     function sub_menu($segment){
+
         return request()->segment('1') == $segment ? 'block' : 'none';
     }
 }
@@ -66,5 +70,26 @@ if (!function_exists('move_file_to_another_directory')) {
         else
             return false;
     }
+
+    if (!function_exists('menu_active_frnot')){
+
+        function menu_active_front($route_name){
+         return Route::currentRouteName() == $route_name ? 'active' : '' ;
+        }
+
+     }
+
+     if(!function_exists('chat_list')){
+
+        function chat_list(){
+
+         return Message::with('messageReceivedToAuthUser')
+                        ->where('to_user_id_fk', auth()->id())
+                        ->where('from_user_id_fk', '<>', auth()->id())
+                        ->orderBy('created_at','desc')->limit(3)->get();
+
+        }
+     }
+
 
 }
