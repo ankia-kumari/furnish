@@ -24,7 +24,7 @@
 <section class="login py-5">
 	<div class="container">
 		<h3 class="heading mb-sm-5 mb-4 text-center">Login To Your Account</h3>
-		
+
 		<div class="login-form">
 			<form action="{{ route('login') }}" method="post">
                 @csrf
@@ -70,12 +70,12 @@
 				<div class="row mt-3">
 					<div class="col-md-8 offset-md-4">
                     <button type="submit" class="btn btn-primary">{{ __('Login') }}</button>
-                    
+
 				</div>
 				</div>
 			</form>
 		</div>
-		
+
 	</div>
 </section>
 <!-- //login -->

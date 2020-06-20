@@ -75,7 +75,7 @@
                     </li>
 
                     <?php $user_chat_list = chat_list()?>
-                    
+
 
                     @forelse ($user_chat_list as $chat_list)
                    <li>
