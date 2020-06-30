@@ -18,7 +18,11 @@ use Illuminate\Support\Facades\Route;
     return view('welcome');
 });*/
 
-Auth::routes();
+Auth::routes(['verify'=>true]);
+
+Route::get('admin/login','Admin\AdminAuthController@showLoginForm');
+Route::post('admin/login','Admin\AdminAuthController@login')->name('admin.login');
+
 
 Route::get('/home', 'HomeController@index')->name('home');
 // Route::get('home', function (){
@@ -28,7 +32,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 /*------------Admin Panel-------------*/
 
-Route::name('admin.')->namespace('Admin')->middleware('auth')->group(function (){
+Route::name('admin.')->namespace('Admin')->middleware(['auth','verified'])->group(function (){
 
     Route::get('dashboard','DashboardController@dashboard')->name('dashboard');
 
@@ -36,7 +40,6 @@ Route::name('admin.')->namespace('Admin')->middleware('auth')->group(function ()
        return redirect('dashboard');
     });
 
-Route::middleware('is_admin')->group(function (){
 
     Route::get('app-configuration','AppConfigurationController@appConfigurationView')->name('app-configuration');
 
@@ -128,9 +131,11 @@ Route::middleware('is_admin')->group(function (){
 
     Route::get('notification/markasread','NotificationController@markAsRead')->name('markasread');
 
-    
 
- });
+
+
+ Route::middleware('auth')->group(function(){
+
     Route::get('post','PostController@postView')->name('post.view');
 
     Route::post('post/add','PostController@postAdd')->name('post.add');
@@ -148,9 +153,7 @@ Route::middleware('is_admin')->group(function (){
     Route::get('message', 'MessageController@messageView')->name('message.view');
     Route::match(['get','post'],'message/{user_id}', 'MessageController@messageAdd')->name('message.add');
 
-
-
-    Route::prefix('user')->name('user.')->group(function (){
+   Route::prefix('user')->middleware('password.confirm')->name('user.')->group(function (){
 
     Route::get('edit','UserController@editProfileView')->name('edit.view');
     Route::post('edit','UserController@editProfile')->name('edit');
@@ -160,6 +163,9 @@ Route::middleware('is_admin')->group(function (){
    });
 
 });
+
+});
+
 
 
 

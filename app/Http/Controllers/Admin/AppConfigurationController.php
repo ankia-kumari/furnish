@@ -15,6 +15,7 @@ class AppConfigurationController extends Controller
     public function appConfigurationView(){
 
         $title = 'App Configuration';
+        
         $breadcrum = [
             'App Configuration',
             'Add App Configuration',

@@ -1,5 +1,6 @@
 <?php
 
+use App\Admin;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -18,15 +19,15 @@ class AdminSeeder extends Seeder
           'name' => 'Admin',
           'email' => 'ankitakumari.ca@gmail.com',
           'password' => Hash::make('123'),
-          'user_type' => 1,
-          'phone' => 1234567890
+          //'user_type' => 1,
+          //'phone' => 1234567890
       ];
 
       DB::statement("SET FOREIGN_KEY_CHECKS=0");
-      DB::table("users")->truncate();
+      DB::table("admins")->truncate();
       DB::statement("SET FOREIGN_KEY_CHECKS=1");
 
-        if(!User::create($admin_data)) {
+        if(!Admin::create($admin_data)) {
             dd('failed to insert'); // dump and die
         }
 

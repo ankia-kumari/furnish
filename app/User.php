@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use App\Message;
 use Illuminate\Support\Facades\Cache;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 

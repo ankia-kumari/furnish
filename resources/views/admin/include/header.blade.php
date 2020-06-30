@@ -55,7 +55,7 @@
 
             <li class="dropdown" id="header-message">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-envelope" id="chat-markasread"></i>
+                    <i class="fa fa-envelope"></i>
                     {{-- <span class="badge">3</span> --}}
                 </a>
                 <ul class="dropdown-menu inbox">
@@ -101,9 +101,6 @@
                    @empty
 
                    @endforelse
-
-
-
                     <li class="footer">
                         <a href="{{ route('admin.message.view') }}">See all messages <i class="fa fa-arrow-circle-right"></i></a>
                     </li>
@@ -442,19 +439,20 @@
 </header>
 <!--/HEADER -->
 @section('scripts')
+
     <script type="text/javascript">
+
     $('#markasread').click(function(){
 
         $.ajax({
 
             url:"{{route('admin.markasread')}}",
-            dataType: 'json',
-            type: 'GET',
-            data:
+            dataType: "json",
+            type: "GET",
+
         });
     });
 
-
-
+</script>
 @endsection
 
