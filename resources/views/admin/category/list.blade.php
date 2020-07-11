@@ -70,6 +70,7 @@
                             </div>
                             <input type="hidden" value="" id="add_image" name="image">
                             {{--for ckeditor--}}
+                            
                             {{--for validation error--}}
                             <div class="form-group row" id="validation_div" style="display: none" >
                                 <div class="col-md-12">
@@ -269,7 +270,7 @@
 
 
  <script type="text/javascript">
-
+     Dropzone.autoDiscover = false;
      CKEDITOR.replace('description1',{
          filebrowserUploadUrl: "{{ route('api.admin.ckeditor.file-upload')}}",
          filebrowserUploadMethod: 'form'
@@ -342,6 +343,7 @@
 
                          $('#submit').toggle();
                          $('#loaading_btn').toggle();
+
                          // show notifiaction
                          notification('flat','messenger-on-top messenger-on-right',response.message);
                          // show notifiaction

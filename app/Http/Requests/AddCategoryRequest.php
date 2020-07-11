@@ -26,7 +26,7 @@ class AddCategoryRequest extends FormRequest
         return [
             'title' => 'required|string',
             'description' => 'required|string',
-            'image' => 'required|string',
+            'image' => 'required|mimes:jpeg,bmp,png',
             'status' => 'required|integer|max:1',
             'theme' => 'required|integer|max:1'
         ];

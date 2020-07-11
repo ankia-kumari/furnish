@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <div id="filter-items" class="row">
+            <div id="" class="row">
                 <div class="col-md-3 category_1 item">
                     <div class="filter-content">
                         <img src="{{asset('assets/img/gallery/1.png')}}" alt="" class="img-responsive" />

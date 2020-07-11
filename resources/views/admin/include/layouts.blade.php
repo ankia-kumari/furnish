@@ -225,6 +225,15 @@ EASY PIE CHART
 <script type="text/javascript" src="{{asset('assets/js/hubspot-messenger/js/messenger-theme-flat.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/js/hubspot-messenger/js/messenger-theme-future.js')}}"></script>
 
+{{-- For DataTable --}}
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+
+{{-- For DataTable --}}
+
+
 @yield('scripts')
 <!-- CUSTOM SCRIPT -->
 <script src="{{asset('assets/js/script.js')}}"></script>

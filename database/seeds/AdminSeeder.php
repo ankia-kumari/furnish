@@ -1,5 +1,6 @@
 <?php
 
+use App\Admin;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -26,7 +27,11 @@ class AdminSeeder extends Seeder
       DB::table("users")->truncate();
       DB::statement("SET FOREIGN_KEY_CHECKS=1");
 
-        if(!User::create($admin_data)) {
+        if($admin = User::create($admin_data)) {
+            // Assign Role
+            $admin->assignRole('admin');
+        }
+        else {
             dd('failed to insert'); // dump and die
         }
 

@@ -55,19 +55,20 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <table class="table">
+                    <table id="enquiry-datatable" class="datatable">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Message</th>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Message</th>
+                            
 
                         </tr>
                         </thead>
                         <tbody id="tbody">
-                        @if($enquiry_list)
+                        {{-- @if($enquiry_list)
                             <?php /*$a = 1; */?>
                             @foreach($enquiry_list as $key => $data)
                                 <tr>
@@ -84,11 +85,11 @@
 
                                 </tr>
                             @endforeach
-                        @endif
+                        @endif --}}
                         </tbody>
                     </table>
 
-                    {{$enquiry_list->links()}}
+                    {{-- {{$enquiry_list->links()}} --}}
                 </div>
             </div>
             <!-- /BOX -->
@@ -98,7 +99,27 @@
 @endsection
 @section('scripts')
     <script type="text/javascript">
-        $('#search').keyup(function () {
+    // using data tbale
+    $(document).ready(function(){
+        $('#enquiry-datatable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{route('admin.enquiry.list')}}",
+            columns: [
+                {data: 'DT_RowIndex'},
+                {data: 'name', name: 'name'},
+                {data: 'email', name: 'email'},
+                {data: 'phone', name: 'phone'},
+                {data: 'message', name: 'message'},
+
+
+            ]
+        });
+    });
+
+
+
+    $('#search').keyup(function () {
 
             var search = $('#search').val()
 

@@ -37,24 +37,24 @@ class AddAppConfigurationRequest extends FormRequest
         ];
     }
 
-    public function messages()
-    {
-       return [
-         // 'required' => "This :attribute is my custom message",
-           'slug.unique' => "dasdds"
-       ];
-    }
+    // public function messages()
+    // {
+    //    return [
+    //      // 'required' => "This :attribute is my custom message",
+    //        'slug.unique' => "dasdds"
+    //    ];
+    // }
 
-    public function attributes()
-    {
-        return [
-            'title' => 'name'
-        ];
-    }
+    // public function attributes()
+    // {
+    //     return [
+    //         'title' => 'name'
+    //     ];
+    // }
 
-    public function validationData()
-    {
-        $this->request->add(['value'=>'fasf']);
-        return $this->all();
-    }
+    // public function validationData()
+    // {
+    //     $this->request->add(['value'=>'fasf']);
+    //     return $this->all();
+    // }
 }

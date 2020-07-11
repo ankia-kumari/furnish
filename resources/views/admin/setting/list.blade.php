@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <table class="table">
+                    <table id="setting-datatable" class="datatable">
                         <thead>
                         <tr>
                             <th>#</th>
@@ -38,35 +38,32 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @if($setting_list)
-                            <?php /*$a = 1; */?>
-                            @foreach($setting_list as $key => $data)
-                                <tr>
-                                    <td>{{++$key}}</td>
+                            {{-- @if($setting_list)
+                                <?php /*$a = 1; */?>
+                                @foreach($setting_list as $key => $data)
+                                    <tr>
+                                        <td>{{++$key}}</td>
 
-                                    <td>{{$data->title ?? 'NA'}}</td>
+                                        <td>{{$data->title ?? 'NA'}}</td>
 
-                                    <td>{{$data->description ?? 'NA'}}</td>
+                                        <td>{{$data->description ?? 'NA'}}</td>
 
-                                    <td>{{$data->slug ?? 'NA'}}</td>
+                                        <td>{{$data->slug ?? 'NA'}}</td>
 
-                                    <td><img src="{{asset('storage/setting/'.$data->image)}}" style="height:40px; width: 40px"></td>
-
-
-                                    <td class="td-actions">
-                                        <button type="button" rel="tooltip" class="btn btn-success" onclick="window.location.href='{{route('admin.setting.edit.view',['id'=>$data->id])}}'">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                        <button type="button" rel="tooltip" class="btn btn-danger" onclick="window.location.href='{{route('admin.setting.delete',['id'=>$data->id])}}'">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endif
+                                        <td><img src="{{asset('storage/setting/'.$data->image)}}" style="height:40px; width: 40px"></td>
 
 
-
+                                        <td class="td-actions">
+                                            <button type="button" rel="tooltip" class="btn btn-success" onclick="window.location.href='{{route('admin.setting.edit.view',['id'=>$data->id])}}'">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button type="button" rel="tooltip" class="btn btn-danger" onclick="window.location.href='{{route('admin.setting.delete',['id'=>$data->id])}}'">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif --}}
                         </tbody>
                     </table>
                 </div>
@@ -74,5 +71,30 @@
             <!-- /BOX -->
         </div>
     </div>
+
+@endsection
+
+@section('scripts')
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#setting-datatable').DataTable({
+            processing: true,
+            serverSite: true,
+            ajax: "{{ route('admin.setting.list') }}",
+            columns: [
+                {data: 'DT_RowIndex'},
+                {data: 'title', name: 'title'},
+                {data: 'description', name: 'description'},
+                {data: 'slug', name: 'slug'},
+                {data: 'image', name: 'image'},
+                {data: 'action', name: 'action'},
+
+            ]
+        });
+
+    });
+
+</script>
 
 @endsection
