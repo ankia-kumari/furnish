@@ -15,7 +15,7 @@ class AppConfigurationController extends Controller
     public function appConfigurationView(){
 
         $title = 'App Configuration';
-        
+
         $breadcrum = [
             'App Configuration',
             'Add App Configuration',
@@ -33,7 +33,7 @@ class AppConfigurationController extends Controller
 
         ];
 
-        if($app_config = AppConfiguration::create($request_data)){
+        if(AppConfiguration::create($request_data)){
 
 
             return redirect()->route('admin.app-configuration.list')->with('success-status',__('success-messages.success'));

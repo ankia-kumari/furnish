@@ -7,6 +7,7 @@ use App\Http\Requests\AddSettingRequest;
 use App\Http\Requests\EditSettingRequest;
 use App\Setting;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class SettingController extends Controller
 {
@@ -42,7 +43,7 @@ class SettingController extends Controller
         return redirect()->route('admin.dashboard')->with('error-status','something went wrong');
     }
 
-    public function settingList(){
+    public function settingList(Request $request){
 
         $title = 'List Of Setting';
 
@@ -52,6 +53,54 @@ class SettingController extends Controller
         ];
 
         $setting_list =  Setting::orderBy('created_at', 'desc')->get();
+
+        if($request->ajax()){
+
+            return DataTables::of($setting_list)->addIndexColumn()
+
+            ->editColumn(
+                'title',
+                function($setting_data){
+                    return $setting_data->title ?? 'NA';
+
+                }
+            )
+            ->editColumn(
+                'description',
+                function($setting_data){
+                    return $setting_data->description ?? 'NA';
+                }
+            )
+            ->editColumn(
+                'slug',
+                function($setting_data){
+                    return $setting_data->slug ?? 'NA';
+                }
+            )
+            ->editColumn(
+                'image',
+                function($setting_data){
+                    return "<img src='".asset("storage/setting/".$setting_data->image)."' style='height:40px; width: 40px'>";
+                }
+            )
+            ->editColumn(
+                'action',
+                function($setting_data){
+                    $edit = route('admin.setting.edit.view',['id'=>$setting_data->id]);
+                    $delete = route('admin.setting.delete',['id'=>$setting_data->id]);
+                    return
+
+                    '<button type="button" rel="tooltip" class="btn btn-success" onclick="window.location.href='."`$edit`".'">
+                    <i class="fa fa-edit"></i>
+                    </button>
+                    <button type="button" rel="tooltip" class="btn btn-danger" onclick="window.location.href='."`$delete`".'">
+                        <i class="fa fa-trash"></i>
+                    </button>';
+                }
+            )
+            ->rawColumns(['image', 'action'])
+            ->make(true);
+        }
 
         return view('admin.setting.list',compact('title','setting_list','breadcrum'));
     }

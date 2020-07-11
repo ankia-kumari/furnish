@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Kodeine\Acl\Traits\HasRole;
 
 
 class RegisterController extends Controller
@@ -77,14 +78,15 @@ class RegisterController extends Controller
             'usertype' => 2
         ]);
 
+        $user->assignRole('user');
       //  Mail::to($user)->send(new WelcomeEmail($user));
 
-        Mail::send('emails.custom-email-temp', compact('user'), function ($callback) use ($user){
-            $callback->to($user->email)
-                ->subject('Signup Success')
-                //->attach()
-                ->from(env('MAIL_FROM_ADDRESS'));
-        });
+        // Mail::send('emails.custom-email-temp', compact('user'), function ($callback) use ($user){
+        //     $callback->to($user->email)
+        //         ->subject('Signup Success')
+        //         //->attach()
+        //         ->from(env('MAIL_FROM_ADDRESS'));
+        // });
 
 
 

@@ -81,7 +81,7 @@
                    <li>
                     <a href="{{ route('admin.message.view') }}">
 
-                        <?php $image = $chat_list->messageReceivedToAuthUser->image == null ? 'avatar.png' : $chat_list->messageReceivedToAuthUser->image ?>
+                        <?php $image = $chat_list->messageReceivedToAuthUser->image ?? '' == null ? 'avatar.png' : $chat_list->messageReceivedToAuthUser->image ?>
 
                         <img src="{{asset('storage/users/'. $image)}}" alt="" />
                         <span class="body">

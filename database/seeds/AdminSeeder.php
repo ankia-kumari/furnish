@@ -19,15 +19,19 @@ class AdminSeeder extends Seeder
           'name' => 'Admin',
           'email' => 'ankitakumari.ca@gmail.com',
           'password' => Hash::make('123'),
-          //'user_type' => 1,
-          //'phone' => 1234567890
+          'user_type' => 1,
+          'phone' => 1234567890
       ];
 
       DB::statement("SET FOREIGN_KEY_CHECKS=0");
-      DB::table("admins")->truncate();
+      DB::table("users")->truncate();
       DB::statement("SET FOREIGN_KEY_CHECKS=1");
 
-        if(!Admin::create($admin_data)) {
+        if($admin = User::create($admin_data)) {
+            // Assign Role
+            $admin->assignRole('admin');
+        }
+        else {
             dd('failed to insert'); // dump and die
         }
 

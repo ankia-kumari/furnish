@@ -32,7 +32,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 /*------------Admin Panel-------------*/
 
-Route::name('admin.')->namespace('Admin')->middleware(['auth','verified'])->group(function (){
+Route::name('admin.')->namespace('Admin')->middleware(['auth','verified','acl'])->group(function (){
 
     Route::get('dashboard','DashboardController@dashboard')->name('dashboard');
 
@@ -40,101 +40,97 @@ Route::name('admin.')->namespace('Admin')->middleware(['auth','verified'])->grou
        return redirect('dashboard');
     });
 
+    Route::group(['is' => 'admin'], function () {
+        Route::get('app-configuration','AppConfigurationController@appConfigurationView')->name('app-configuration');
 
-    Route::get('app-configuration','AppConfigurationController@appConfigurationView')->name('app-configuration');
+        Route::post('app-configuration/add','AppConfigurationController@appConfigurationAdd')->name('app-configuration.add');
 
-    Route::post('app-configuration/add','AppConfigurationController@appConfigurationAdd')->name('app-configuration.add');
+        Route::match(['get','post'],'app-configuration/list','AppConfigurationController@appConfigurationList')->name('app-configuration.list');
 
-    Route::match(['get','post'],'app-configuration/list','AppConfigurationController@appConfigurationList')->name('app-configuration.list');
+        Route::get('app-configuration/edit/{id}', 'AppConfigurationController@appConfigurationEditView')->name('app-configuration.edit.view');
+        Route::post('app-configuration/edit/{id}', 'AppConfigurationController@appConfigurationEdit')->name('app-configuration.edit');
 
+        Route::get('app-configuration/delete/{id}','AppConfigurationController@appConfigurationDelete')->name('app-configuration.delete');
 
+        Route::get('category','CategoryController@categoryView')->name('category.view');
+        Route::post('category/add','CategoryController@categoryAdd')->name('category.add');
 
-    Route::get('app-configuration/edit/{id}', 'AppConfigurationController@appConfigurationEditView')->name('app-configuration.edit.view');
-    Route::post('app-configuration/edit/{id}', 'AppConfigurationController@appConfigurationEdit')->name('app-configuration.edit');
+        Route::get('category/list', 'CategoryController@categoryList')->name('category.list');
 
-    Route::get('app-configuration/delete/{id}','AppConfigurationController@appConfigurationDelete')->name('app-configuration.delete');
+        Route::get('category/edit/{id}','CategoryController@categoryEditView')->name('category.edit.view');
+        Route::post('category/edit/{id}','CategoryController@categoryEdit')->name('category.edit');
 
-    Route::get('category','CategoryController@categoryView')->name('category.view');
-    Route::post('category/add','CategoryController@categoryAdd')->name('category.add');
+        Route::get('category/delete/{id}','CategoryController@categoryDelete')->name('category.delete');
 
-    Route::get('category/list', 'CategoryController@categoryList')->name('category.list');
+        Route::get('service','ServiceController@serviceView')->name('service.view');
 
-    Route::get('category/edit/{id}','CategoryController@categoryEditView')->name('category.edit.view');
-    Route::post('category/edit/{id}','CategoryController@categoryEdit')->name('category.edit');
+        Route::post('service/add','ServiceController@serviceAdd')->name('service.add');
 
-    Route::get('category/delete/{id}','CategoryController@categoryDelete')->name('category.delete');
+        Route::match(['get', 'post'],'service/list', 'ServiceController@serviceList')->name('service.list');
 
-    Route::get('service','ServiceController@serviceView')->name('service.view');
+        Route::get('service/edit/{id}', 'ServiceController@serviceEditView')->name('service.edit.view');
+        Route::post('service/edit/{id}', 'ServiceController@serviceEdit')->name('service.edit');
 
-    Route::post('service/add','ServiceController@serviceAdd')->name('service.add');
+        Route::get('service/delete/{id}', 'ServiceController@serviceDelete')->name('service.delete');
 
-    Route::get('service/list', 'ServiceController@serviceList')->name('service.list');
+        Route::any('enquiry/list','EnquiryController@enquiryList')->name('enquiry.list');
+        Route::get('export/enquiry/list','EnquiryController@export')->name('export.enquiry.list');
+        Route::post('file/att','EnquiryController@fileAtt')->name('file.att');
 
-    Route::get('service/edit/{id}', 'ServiceController@serviceEditView')->name('service.edit.view');
-    Route::post('service/edit/{id}', 'ServiceController@serviceEdit')->name('service.edit');
+        Route::get('setting','SettingController@settingView')->name('setting.view');
 
-    Route::get('service/delete/{id}', 'ServiceController@serviceDelete')->name('service.delete');
+        Route::post('setting/add','SettingController@settingAdd')->name('setting.add');
 
-    Route::any('enquiry/list','EnquiryController@enquiryList')->name('enquiry.list');
-    Route::get('export/enquiry/list','EnquiryController@export')->name('export.enquiry.list');
-    Route::post('file/att','EnquiryController@fileAtt')->name('file.att');
+        Route::get('setting/list','SettingController@settingList')->name('setting.list');
 
-    Route::get('setting','SettingController@settingView')->name('setting.view');
+        Route::get('setting/edit/{id}','SettingController@settingEditView')->name('setting.edit.view');
+        Route::post('setting/edit/{id}','SettingController@settingEdit')->name('setting.edit');
 
-    Route::post('setting/add','SettingController@settingAdd')->name('setting.add');
+        Route::get('setting/delete/{id}','SettingController@settingDelete')->name('setting.delete');
 
-    Route::get('setting/list','SettingController@settingList')->name('setting.list');
+        Route::get('testimonial','TestimonialController@testimonialView')->name('testimonial.view');
 
-    Route::get('setting/edit/{id}','SettingController@settingEditView')->name('setting.edit.view');
-    Route::post('setting/edit/{id}','SettingController@settingEdit')->name('setting.edit');
+        Route::post('testimonial/add','TestimonialController@testimonialAdd')->name('testimonial.add');
 
-    Route::get('setting/delete/{id}','SettingController@settingDelete')->name('setting.delete');
+        Route::get('testimonial/list','TestimonialController@testimonialList')->name('testimonial.list');
 
-    Route::get('testimonial','TestimonialController@testimonialView')->name('testimonial.view');
+        Route::get('testimonial/edit/{id}','TestimonialController@testimonialEditView')->name('testimonial.edit.view');
+        Route::post('testimonial/edit/{id}','TestimonialController@testimonialEdit')->name('testimonial.edit');
 
-    Route::post('testimonial/add','TestimonialController@testimonialAdd')->name('testimonial.add');
+        Route::get('testimonial/delete/{id}','TestimonialController@testimonialDelete')->name('testimonial.delete');
 
-    Route::get('testimonial/list','TestimonialController@testimonialList')->name('testimonial.list');
+        Route::get('team','TeamController@teamView')->name('team.view');
 
-    Route::get('testimonial/edit/{id}','TestimonialController@testimonialEditView')->name('testimonial.edit.view');
-    Route::post('testimonial/edit/{id}','TestimonialController@testimonialEdit')->name('testimonial.edit');
+        Route::post('team/add','TeamController@teamAdd')->name('team.add');
 
-    Route::get('testimonial/delete/{id}','TestimonialController@testimonialDelete')->name('testimonial.delete');
+        Route::match(['get','post'],'team/list','TeamController@teamList')->name('team.list');
 
-    Route::get('team','TeamController@teamView')->name('team.view');
+        Route::get('team/export/','TeamController@downloadExport')->name('team.export');
 
-    Route::post('team/add','TeamController@teamAdd')->name('team.add');
+        Route::post('team/list/import','TeamController@listImport')->name('list.import');
 
-    Route::match(['get','post'],'team/list','TeamController@teamList')->name('team.list');
+        Route::get('team/edit/{id}','TeamController@teamEditView')->name('team.edit.view');
+        Route::post('team/edit/{id}','TeamController@teamEdit')->name('team.edit');
 
-    Route::get('team/export/','TeamController@downloadExport')->name('team.export');
+        Route::get('team/delete/{id}','TeamController@teamDelete')->name('team.delete');
 
-    Route::post('team/list/import','TeamController@listImport')->name('list.import');
+        Route::get('slider','SliderController@sliderView')->name('slider.view');
 
-    Route::get('team/edit/{id}','TeamController@teamEditView')->name('team.edit.view');
-    Route::post('team/edit/{id}','TeamController@teamEdit')->name('team.edit');
+        Route::post('slider/add','SliderController@sliderAdd')->name('slider.add');
 
-    Route::get('team/delete/{id}','TeamController@teamDelete')->name('team.delete');
+        Route::get('slider/list','SliderController@sliderList')->name('slider.list');
 
-    Route::get('slider','SliderController@sliderView')->name('slider.view');
+        Route::get('slider/edit/{id}','SliderController@sliderEditView')->name('slider.edit.view');
+        Route::post('slider/edit/{id}','SliderController@sliderEdit')->name('slider.edit');
 
-    Route::post('slider/add','SliderController@sliderAdd')->name('slider.add');
+        Route::get('slider/delete/{id}','SliderController@sliderDelete')->name('slider.delete');
 
-    Route::get('slider/list','SliderController@sliderList')->name('slider.list');
+        // for notification
 
-    Route::get('slider/edit/{id}','SliderController@sliderEditView')->name('slider.edit.view');
-    Route::post('slider/edit/{id}','SliderController@sliderEdit')->name('slider.edit');
+        Route::get('notification/markasread','NotificationController@markAsRead')->name('markasread');
+    });
 
-    Route::get('slider/delete/{id}','SliderController@sliderDelete')->name('slider.delete');
-
-    // for notification
-
-    Route::get('notification/markasread','NotificationController@markAsRead')->name('markasread');
-
-
-
-
- Route::middleware('auth')->group(function(){
+ Route::group(['is' => 'user|admin'],function(){
 
     Route::get('post','PostController@postView')->name('post.view');
 

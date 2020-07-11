@@ -10,6 +10,8 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Calculation\Database;
+use Yajra\DataTables\Facades\DataTables;
 
 class EnquiryController extends Controller
 {
@@ -25,9 +27,9 @@ class EnquiryController extends Controller
 
        if ($request->has('search') && !empty($request['search'])){
            $enquiry_query->where(function ($data) use($request){
-              $data->where('name','like','%'.$request['search'].'%');
-              $data->orwhere('email','like','%'.$request['search'].'%');
-              $data->orwhere('phone','like','%'.$request['search'].'%');
+              $data->where('name','like','%'.$request['search']['value'].'%');
+              $data->orwhere('email','like','%'.$request['search']['value'].'%');
+              $data->orwhere('phone','like','%'.$request['search']['value'].'%');
 
            });
        }
@@ -38,16 +40,53 @@ class EnquiryController extends Controller
            }
        }
 
-       $enquiry_list = $enquiry_query->paginate(config('custom-app.per_page'));
+       $enquiry_list = $enquiry_query->get();
 
-       $paginate = $enquiry_list->firstItem();
+
+      // $paginate = $enquiry_list->firstItem();
+
 
        if ($request->ajax()){
 
-           return view('admin.enquiry.list-by-ajax',compact('enquiry_list','paginate'));
+            return DataTables::of($enquiry_list)->addIndexColumn()
+
+            ->editColumn(
+                'name',
+                function($enquiry_data){
+                    return $enquiry_data->name ?? 'NA';
+
+                }
+            )
+            ->editColumn(
+                'email',
+                function($enquiry_data){
+                    return $enquiry_data->email ?? 'NA';
+
+                }
+            )
+            ->editColumn(
+                'phone',
+                function($enquiry_data){
+                    return $enquiry_data->phone ?? 'NA';
+
+                }
+            )
+            ->editColumn(
+                'message',
+                function($enquirt_data){
+                    return $enquirt_data->message ?? 'NA';
+
+                }
+            )
+            ->make(true);
+
+           //return view('admin.enquiry.list-by-ajax',compact('enquiry_list','paginate'));
+
+
        }
 
-       return view('admin.enquiry.list',compact('title','enquiry_list','breadcrum','paginate'));
+
+       return view('admin.enquiry.list',compact('title','enquiry_list','breadcrum'));
    }
 
    public function export() {
